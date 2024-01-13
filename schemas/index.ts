@@ -1,5 +1,5 @@
 import * as z from 'zod';
-console.log(z, "z")
+
 
 export const LoginSchema = z.object({
 	email: z.string().email({
