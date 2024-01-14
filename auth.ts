@@ -17,15 +17,20 @@ export const {
 	auth,
 	signIn,
 	signOut,
-	update,
 } = NextAuth({
+	pages: {
+		signIn: '/auth/login',
+		error: '/auth/error',
+	},
+	events: {
+		async linkAccount({ user }) {
+			await db.user.update({
+				where: { id: user.id },
+				data: { emailVerified: new Date() },
+			});
+		},
+	},
 	callbacks: {
-		// async signIn({ user }) {
-		// 	const existingUser = await getUserById(user.id);
-		// 	if (!existingUser || !existingUser.emailVerified) return false;
-		// 	return true
-		// },
-
 		async session({ session, token }) {
 			return {
 				...session,
@@ -43,11 +48,6 @@ export const {
 			return token;
 		},
 	},
-	pages: {
-		signIn: '/auth/login',
-		error: '/auth/error',
-	},
-
 	adapter: PrismaAdapter(db),
 	session: { strategy: 'jwt' },
 	...authConfig,
