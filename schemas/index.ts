@@ -30,3 +30,10 @@ export const ResetSchema = z.object({
 		message: 'Email is required',
 	}),
 });
+
+
+export const PasswordSchema = z.object({
+	password: z.string().min(6, {
+		message: 'Minimum 6 characters required',
+	}),
+});
