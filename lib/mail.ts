@@ -29,7 +29,20 @@ console.log(email, token, resetLink)
 		html: `
       <h1>Reset your password</h1>
       <p>Click the link below to reset your password.</p>
-      <a href="${resetLink}">Confirm email address</a>
+      <a href="${resetLink}">Reset Password</a>
+    `,
+	});
+};
+
+
+export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
+
+	await resend.emails.send({
+		from: 'onboarding@resend.dev',
+		to: email,
+		subject: '2FA Code',
+		html: `      
+      <p>Your 2FA Code: ${token}</p>
     `,
 	});
 };
