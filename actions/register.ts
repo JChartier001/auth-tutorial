@@ -1,6 +1,7 @@
 'use server'
 import { getUserByEmail } from "@/data/user";
-import {db} from "@/lib/db"
+import { db } from "@/lib/db"
+import { generateVerificationToken } from "@/lib/tokens";
 import { RegisterSchema } from "@/schemas";
 import bcrypt from "bcrypt";
 import * as z from "zod"
@@ -30,7 +31,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     }
   })
 
-  //TODO: send verification token email
-return { success: 'User Created' };
-//  return {success: "Email Sent"}
+  const verificationToken = await generateVerificationToken(email);
+
+
+return { success: 'Confirmation email sent' };
+
 }
